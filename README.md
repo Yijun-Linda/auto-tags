@@ -85,7 +85,7 @@ Prompt 示例
 
 requirement：安装requests库，这个库将用于处理API调用
 
-我用的是百度的千帆大模型
+我用的是百度的千帆大模型，调用 API (https://cloud.baidu.com/video-center/video/364)
 
 
 
