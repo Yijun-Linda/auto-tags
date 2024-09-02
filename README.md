@@ -56,13 +56,10 @@ Prompt 示例
   "prompt": "根据输入的标签编号和描述，返回对应的标签分类，格式为 JSON。输入示例：[{'id': '123', 'description': 'Mental 101'}, {'id': '345', 'description': 'Business 101'}]，返回示例：{'123': 'Mental 101', '345': 'Business 101'}"
 }
 
-JSON 返回示例
-```
 {
   "123": "Dating 101",
   "345": "Business 101"
 }
-```
 
 以下是输入
 
