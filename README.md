@@ -67,7 +67,7 @@ Prompt 示例
   "input": [
     {
       "id": "001",
-      "description": "讨论了如何dating的内容。"
+      "description": "讨论了如何 Mental peace 的内容。"
     },
     {
       "id": "002",
@@ -75,7 +75,7 @@ Prompt 示例
     }
   ],
   "output": {
-    "001": "Dating 101",
+    "001": "Mental 101",
     "002": "Work 101"
   }
 }
