@@ -87,6 +87,12 @@ requirement：安装requests库，这个库将用于处理API调用
 
 我用的是百度的千帆大模型，调用 API (https://cloud.baidu.com/video-center/video/364)
 
+鉴权 -->  获取AccessToken
+
+get oauth2.0token.py
+
+
+
 
 
 
