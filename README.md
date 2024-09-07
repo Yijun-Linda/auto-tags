@@ -14,9 +14,13 @@ Then run split_md.py
 ## Prompt
 
 我现在手里有一份md文字文件，里面大概有3000多行文字，我想用ai来给每一行打标签，请帮我生成：
+
 - 5条标签，要详细，大约1段文字
+
 - 完整的标签分类，大约10条
+
 - 一条Prompt来根据输入的标签编号和标签返回对应的标签分类，返回JSON格式。
+
 - 输入示例：[{"id": "123", "description": "XXXXX"}, {"id": "345", "description": "YYYY" }]
   返回示例：{"123", "cat1", "345": "cat2"}
 
@@ -27,11 +31,17 @@ Then run split_md.py
 在 GPT 4-o 里面问，教我如何调用 API 的事情，借助 LLM 帮忙，帮我写代码，
 
 这部分代码主要逻辑：
+
 a) 每次读取一个一份md文件
+
 b) 解析md文件内容，得到文字的列表
+
 c) 调用 LLM 的 API，输入前面调试好的 Prompt，输入md中的文字列表，按照 Prompt 设定好的输入格式输入
+
 d) 解析 API 返回的结果，得到文字段和标签分类之间的对应关系
+
 e) 保存为新的 md 文件，在原来的基础上给每个问字段加上标签分类
+
 f) 直到生成所有新的带有分类的 md 文件
 
 每一份分割后 md文件的命名规则是paragraphs_1，一直到paragraphs_67
@@ -83,16 +93,44 @@ Prompt 示例
 
 ## 写程序调用 LLM 的 API 
 
-requirement：安装requests库，这个库将用于处理API调用
+我采用的是本地大模型部署
 
-我用的是百度的千帆大模型，调用 API (https://cloud.baidu.com/video-center/video/364)
+Docker Desktop，来提供部署本地容器化的大模型的环境
+  - 拉取镜像
+  - 运行容器
+  - 配置必要的参数，如端口映射、存储路径
 
-鉴权 -->  获取AccessToken
+FastGPT、OneAPI
 
-get oauth2.0token.py
+FastGPT 和 OneAPI 的 API 文档，了解如何进行身份验证、发送请求和处理响应。
+
+在 Python 中可以使用 `requests` 库，配置 API 密钥或身份验证信息，发送请求并处理响应。
 
 
 
+以下展示如何使用 `requests` 库调用一个 qwen 2:0.5b 的大模型 API：
 
+```python
+import requests
 
+# API 地址
+api_url = "http://localhost:8080/generate"
+
+# 请求参数
+data = {
+    "prompt": "Hello, world!",
+    "max_tokens": 50
+}
+
+# 发送请求
+response = requests.post(api_url, json=data)
+
+# 处理响应
+if response.status_code == 200:
+    result = response.json()
+    generated_text = result["generated_text"]
+    print(generated_text)
+else:
+    print(f"Error: {response.status_code}")
+```
 
