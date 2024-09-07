@@ -19,16 +19,18 @@ Then run split_md.py
 
 ## Initial Prompt
 
-我现在手里有一份md文字文件，里面大概有3000多行文字，我想用ai来给每一行打标签，请帮我生成：
+我现在手里有一份md文字文件，里面大概有3000多行文字，我想用ai来给每一行打一个标签，每一个生成的标签可以是重复的，也可以是新的一个标签，请帮我生成：
 
-- 5条标签，要详细，大约1段文字
+- 100条标签，要详细，大约1段文字
 
-- 完整的标签分类，大约10条
+- 完整的标签分类，大约200条
 
 - 一条Prompt来根据输入的标签编号和标签返回对应的标签分类，返回JSON格式。
 
 - 输入示例：[{"id": "123", "description": "XXXXX"}, {"id": "345", "description": "YYYY" }]
   返回示例：{"123", "cat1", "345": "cat2"}
+
+-注意：输入示例中的 “description” 等于3000多行文字中的一行；"XXXXX"是通过 本地大语言模型生成的标签，生成的标签可以是重复的，也可以是新的一个标签，这取决于 “description” 通过本地大语言模型分析后的结果
 
 You could test in Gemini or another LLM model
 
@@ -118,30 +120,7 @@ FastGPT 和 OneAPI 的 API 文档，了解如何进行身份验证、发送请�
 在 Python 中可以使用 `requests` 库，配置 API 密钥或身份验证信息，发送请求并处理响应。
 
 
+### 配置 API
+你应该根据你的实际配置来确定正确的 API 地址，比如在你的配置中，FastGPT 的 OPENAI_BASE_URL 设置为 http://host.docker.internal:[12345]/v1，那么在你的代码中调用大模型 API 的地址也应该相应地调整为这个实际配置的地址
 
-以下展示如何使用 `requests` 库调用一个 qwen 2:0.5b 的大模型 API：
-
-```python
-import requests
-
-# API 地址
-api_url = "http://localhost:8080/generate"
-
-# 请求参数
-data = {
-    "prompt": "Hello, world!",
-    "max_tokens": 50
-}
-
-# 发送请求
-response = requests.post(api_url, json=data)
-
-# 处理响应
-if response.status_code == 200:
-    result = response.json()
-    generated_text = result["generated_text"]
-    print(generated_text)
-else:
-    print(f"Error: {response.status_code}")
-```
 
