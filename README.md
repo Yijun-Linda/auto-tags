@@ -1,7 +1,12 @@
 # Auto tag paragraphs
 
-## Split markdown to meet the limition of long context
-我有3000多行记录的文字段，想让大语言模型去分类。我恐怕上下文窗口不够用的，并且内容长了出错的概率也会很大，所以要拆分。我不知道md文件是否直接可以导出以多个段落的总字数接近1000字来分割成小md文件，让 AI 帮你写一个大md文件拆分成小md文件的程序，被保存到一个单独的md文件中，文件名会根据段落在Markdown文件中的顺序进行编号
+我有3000多行记录的文字段，想让大语言模型去分类。我恐怕上下文窗口不够用的，并且内容长了出错的概率也会很大，所以要拆分。
+
+让 AI 帮你写一个大md文件拆分成小md文件的程序，被保存到一个单独的md文件中，文件名会根据段落在Markdown文件中的顺序进行编号
+
+Ps 导出以多个段落的总字数接近1000字来分割成小md文件。
+
+## Split markdown to meet the limit of long context
 
 我命名的脚本文件为 split_md.py
 
@@ -11,7 +16,8 @@
 
 Then run split_md.py
 
-## Prompt
+
+## Initial Prompt
 
 我现在手里有一份md文字文件，里面大概有3000多行文字，我想用ai来给每一行打标签，请帮我生成：
 
@@ -24,9 +30,9 @@ Then run split_md.py
 - 输入示例：[{"id": "123", "description": "XXXXX"}, {"id": "345", "description": "YYYY" }]
   返回示例：{"123", "cat1", "345": "cat2"}
 
-### test in Gemini or other LLM model
+You could test in Gemini or another LLM model
 
-### 写程序调用 LLM 的 API 
+### Main programming idea
 
 在 GPT 4-o 里面问，教我如何调用 API 的事情，借助 LLM 帮忙，帮我写代码，
 
@@ -46,9 +52,12 @@ f) 直到生成所有新的带有分类的 md 文件
 
 每一份分割后 md文件的命名规则是paragraphs_1，一直到paragraphs_67
 
-调试 Prompt
+### 调试 Prompt
+
+```python
 
 你是一位经验丰富的归纳标签的工程师，你的任务是根据输入的标签编号和标签，将其分类到合适的标签类别。你的分类标准如下：
+
 1. Writing 101
 2. Life 101
 3. Health 101
@@ -60,10 +69,11 @@ f) 直到生成所有新的带有分类的 md 文件
 Prompt 示例
 以下是用于根据输入的标签编号和描述返回对应标签分类的 Prompt：
 
-
 ```json
 {
-  "prompt": "根据输入的标签编号和描述，返回对应的标签分类，格式为 JSON。输入示例：[{'id': '123', 'description': 'Mental 101'}, {'id': '345', 'description': 'Business 101'}]，返回示例：{'123': 'Mental 101', '345': 'Business 101'}"
+  "prompt": "根据输入的标签编号和描述，返回对应的标签分类，格式为 JSON。
+输入示例：[{'id': '123', 'description': 'Mental 101'}, {'id': '345', 'description': 'Business 101'}]，
+返回示例：{'123': 'Mental 101', '345': 'Business 101'}"
 }
 
 {
@@ -93,14 +103,15 @@ Prompt 示例
 
 ## 写程序调用 LLM 的 API 
 
-我采用的是本地大模型部署
+### 本地部署大语言模型：Ollama+Qwen2:0.5b
 
 Docker Desktop，来提供部署本地容器化的大模型的环境
   - 拉取镜像
   - 运行容器
   - 配置必要的参数，如端口映射、存储路径
+  - 
 
-FastGPT、OneAPI
+### 部署本地知识库：FastGPT+OneAPI
 
 FastGPT 和 OneAPI 的 API 文档，了解如何进行身份验证、发送请求和处理响应。
 
